@@ -6,17 +6,17 @@ export default {
     extend: {
       colors: {
         forest: {
-          50:  '#f0f7f1',
-          100: '#d9eedd',
-          200: '#afd9b8',
-          300: '#7bbf8d',
-          400: '#4fa36a',
-          500: '#2d8a4f',
-          600: '#1d6e3d',
-          700: '#16562f',
-          800: '#114225',
-          900: '#0b2e1a',
-          950: '#061a0f',
+          50:  '#E6F1FB',
+          100: '#B5D4F4',
+          200: '#85B7EB',
+          300: '#378ADD',
+          400: '#2272C3',
+          500: '#185FA5',
+          600: '#1d6fb5',
+          700: '#0C447C',
+          800: '#063263',
+          900: '#042C53',
+          950: '#021A33',
         },
         ivory: {
           50:  '#fefdf8',
@@ -35,9 +35,9 @@ export default {
           700: '#8f5f0a',
         },
         ink: {
-          900: '#0f1a0f',
-          800: '#1a2e1a',
-          700: '#243824',
+          900: '#021A33',
+          800: '#042C53',
+          700: '#063263',
         }
       },
       fontFamily: {
@@ -82,8 +82,8 @@ export default {
       },
       boxShadow: {
         'gold':    '0 4px 24px -4px rgba(212, 151, 30, 0.35)',
-        'forest':  '0 4px 24px -4px rgba(29, 110, 61, 0.3)',
-        'ink':     '0 8px 40px -8px rgba(15, 26, 15, 0.5)',
+        'forest':  '0 4px 24px -4px rgba(24, 95, 165, 0.3)',
+        'ink':     '0 8px 40px -8px rgba(2, 26, 51, 0.5)',
         'card':    '0 2px 16px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.05)',
       },
       transitionTimingFunction: {
