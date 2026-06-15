@@ -130,4 +130,5 @@ Vercel detects the push, rebuilds, and redeploys automatically within ~30 second
 ## Credits
 
 Built by **Muluken Bekele**
+LinkedIn: 
 Design & Development — 2026
