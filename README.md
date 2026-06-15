@@ -2,7 +2,7 @@
 
 A modern, animated portfolio website for **Desi Di Nardo** — Poet, Professor, and Scholar based in Toronto, Canada.
 
-Live site: [desi-dinardo.vercel.app](https://desi-dinardo.vercel.app)
+Live site: [desi-di-nardo.vercel.app](https://desi-di-nardo.vercel.app/)
 
 ---
 
@@ -130,4 +130,4 @@ Vercel detects the push, rebuilds, and redeploys automatically within ~30 second
 ## Credits
 
 Built by **Muluken Bekele**
-Design & Development — 2025
+Design & Development — 2026
