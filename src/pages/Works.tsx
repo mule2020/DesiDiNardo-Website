@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink, ChevronLeft, ChevronRight, Play } from 'lucide-react'
 import { siteData, workMedia } from '../data/site'
 
-const categories = ['All', 'Collabs', 'Poetry', 'Education']
-
+const categories = ['All', 'Collabs', 'Poetry', 'Education', 'Engagement', "Children's Author"]
 // ── Image carousel ───────────────────────────────────────────────────────────
 const ImageCarousel = ({ images }: { images: { src: string; alt: string }[] }) => {
   const [current, setCurrent] = useState(0)
@@ -46,21 +45,36 @@ const ImageCarousel = ({ images }: { images: { src: string; alt: string }[] }) =
 }
 
 // ── Video player ─────────────────────────────────────────────────────────────
-const VideoPlayer = ({ videos }: { videos: { src: string; label?: string }[] }) => {
+const VideoPlayer = ({ videos }: { videos: { src?: string; youtubeId?: string; label?: string }[] }) => {
   const [current, setCurrent] = useState(0)
   if (!videos.length) return null
+  const video = videos[current]
+
   return (
     <div className="mt-5">
-      <video
-        key={videos[current].src}
-        controls
-        className="w-full rounded-xl bg-ink-900"
-        style={{ maxHeight: '220px' }}
-        preload="metadata"
-      >
-        <source src={videos[current].src} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {video.youtubeId ? (
+        <div className="relative w-full rounded-xl overflow-hidden bg-ink-900" style={{ paddingTop: '56.25%' }}>
+          <iframe
+            key={video.youtubeId}
+            className="absolute inset-0 w-full h-full"
+            src={`https://www.youtube.com/embed/${video.youtubeId}`}
+            title={video.label || 'YouTube video'}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <video
+          key={video.src}
+          controls
+          className="w-full rounded-xl bg-ink-900"
+          style={{ maxHeight: '220px' }}
+          preload="metadata"
+        >
+          <source src={video.src} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
       {videos.length > 1 && (
         <div className="flex gap-2 mt-2">
           {videos.map((v, i) => (

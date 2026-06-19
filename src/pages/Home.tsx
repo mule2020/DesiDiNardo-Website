@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, BookOpen, Mic2, GraduationCap } from 'lucide-react'
+import { ArrowRight, BookOpen, Mic2, GraduationCap, Feather } from 'lucide-react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { siteData } from '../data/site'
 
@@ -22,6 +22,44 @@ const FloatingOrb = ({ className, delay = 0 }: { className: string; delay?: numb
   </motion.div>
 )
 
+// ── Ink blot SVG decoration ───────────────────────────────────────────────────
+const InkBlot = ({ className }: { className: string }) => (
+  <svg viewBox="0 0 200 200" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M100 20C130 20 140 50 160 60C180 70 180 100 160 120C140 140 140 170 100 180C60 170 40 150 30 120C20 90 30 60 50 50C70 40 70 20 100 20Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+// ── Typewriter line — used beside the hero photo ─────────────────────────────
+const TypewriterLine = ({ text, delay = 0 }: { text: string; delay?: number }) => {
+  const [shown, setShown] = useState('')
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    let i = 0
+    const startTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        i++
+        setShown(text.slice(0, i))
+        if (i >= text.length) {
+          clearInterval(interval)
+          setDone(true)
+        }
+      }, 40)
+    }, delay)
+    return () => clearTimeout(startTimeout)
+  }, [text, delay])
+
+  return (
+    <span>
+      {shown}
+      {!done && <span className="opacity-50 animate-pulse">|</span>}
+    </span>
+  )
+}
+
 // ── Hero ─────────────────────────────────────────────────────────────────────
 const Hero = () => {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -32,12 +70,10 @@ const Hero = () => {
   return (
     <section ref={heroRef} className="relative min-h-screen flex items-center overflow-hidden bg-ivory-100 dark:bg-ink-900">
 
-      {/* Decorative floating leaves */}
       <FloatingOrb className="text-forest-600 w-16 h-20 top-1/4 left-[4%]" delay={0} />
       <FloatingOrb className="text-gold-500  w-10 h-14 top-1/3 right-[6%]" delay={2} />
       <FloatingOrb className="text-forest-400 w-8 h-10 bottom-1/3 left-[12%]" delay={4} />
 
-      {/* Gold accent line left */}
       <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
@@ -119,14 +155,13 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* ── Right — portrait photo ── */}
+          {/* ── Right — portrait photo + typewriter caption beside it ── */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="relative flex justify-center lg:justify-end"
           >
-            {/* Pulsing gold ring decorations */}
             <motion.div
               animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.9, 0.5] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
@@ -137,11 +172,8 @@ const Hero = () => {
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
               className="absolute -top-8 -right-8 w-32 h-32 rounded-full border border-gold-400/20 z-0"
             />
-
-            {/* Gold bottom-left accent */}
             <div className="absolute -bottom-3 -left-3 w-16 h-16 rounded-full bg-gold-500/10 z-0" />
 
-            {/* Photo frame — floating animation */}
             <motion.div
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
@@ -149,16 +181,11 @@ const Hero = () => {
               style={{ rotate: -2 }}
             >
               <div className="relative w-72 h-96 md:w-80 md:h-[440px] lg:w-96 lg:h-[520px] rounded-2xl overflow-hidden shadow-ink border-2 border-gold-400/30">
-
-                {/* Real photo — add desi-portrait.jpg to public/images/ */}
                 <img
                   src="/images/educator/image-1.jpg"
                   alt="Desi Di Nardo"
                   className="w-full h-full object-cover relative z-10"
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
                 />
-
-                {/* Placeholder shown until real photo is added */}
                 <div className="absolute inset-0 z-0 bg-gradient-to-br from-forest-100 to-forest-200 dark:from-forest-900 dark:to-forest-950 flex flex-col items-center justify-center gap-4">
                   <div className="w-20 h-20 rounded-full border-2 border-dashed border-forest-400/50 dark:border-forest-600 flex items-center justify-center">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-forest-500 dark:text-forest-400">
@@ -169,16 +196,22 @@ const Hero = () => {
                   <p className="text-xs text-forest-600 dark:text-forest-400 font-body text-center px-6 leading-relaxed">
                     Portrait photo<br />coming soon
                   </p>
-                  <p className="text-[10px] text-forest-500/60 dark:text-forest-600 font-body text-center px-6">
-                    Add photo to<br />public/images/desi-portrait.jpg
-                  </p>
                 </div>
-
-                {/* Gradient overlay on real photo */}
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-900/30 via-transparent to-transparent pointer-events-none" />
               </div>
 
-              {/* Gold line below frame */}
+              {/* Typewriter caption beside/below the photo frame */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1.6 }}
+                className="absolute -bottom-14 left-0 right-0 px-2"
+              >
+                <p className="font-display text-sm md:text-base italic text-center text-forest-700 dark:text-gold-400 leading-snug">
+                  <TypewriterLine text={siteData.poetryLines[0]} delay={1800} />
+                </p>
+              </motion.div>
+
               <div className="absolute -bottom-2 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
             </motion.div>
           </motion.div>
@@ -186,7 +219,6 @@ const Hero = () => {
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -231,12 +263,196 @@ const PoetryReveal = () => {
               initial={{ opacity: 0, x: -30 }}
               animate={i < visibleLines ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className={`font-display text-2xl md:text-4xl font-light text-ivory-100 ${i % 2 === 1 ? 'pl-8 md:pl-16 text-gold-300' : ''
-                }`}
+              className={`font-display text-2xl md:text-4xl font-light text-ivory-100 ${i % 2 === 1 ? 'pl-8 md:pl-16 text-gold-300' : ''}`}
             >
               {line}
             </motion.p>
           ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ── Featured Poem ──────────────────────────────────────────────────────────
+// TODO: Replace placeholder lines with one of Desi's real short poems
+const featuredPoem = {
+  title: 'Tumbleweed',
+  lines: [
+    'when your world ends',
+    'stallion of the street',
+    '2 in the morning',
+    'my blue dress',
+    'by your wrists',
+    'at the window',
+    'a beautiful view',
+    '',
+    'I crave language',
+    'the stain of flesh',
+    'the revving engine',
+    'wayward honeysuckle',
+    'tracing your fence',
+    'and this frenzy—',
+    'my mustang heart',
+    '',
+    'in the pain of glass',
+    'wind and quietness',
+    'a tumbleweed of rain',
+    'tell the angels our story',
+    'hold me photographer',
+    'reclaim us despite',
+    'the blindness from the start',
+  ],
+}
+
+const FeaturedPoem = () => {
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 })
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative py-28 bg-ivory-50 dark:bg-ink-900 overflow-hidden">
+      <InkBlot className="absolute -top-10 -left-16 w-64 h-64 text-forest-100 dark:text-forest-950 opacity-60" />
+      <InkBlot className="absolute -bottom-16 -right-10 w-72 h-72 text-gold-100 dark:text-gold-950/40 opacity-40" />
+
+      <div className="relative max-w-2xl mx-auto px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <Feather size={20} className="text-gold-500 mx-auto mb-5" />
+          <p className="section-label mb-3">A Poem</p>
+          <h2 className="font-display text-2xl md:text-3xl italic font-light text-ink-900 dark:text-ivory-100 mb-10">
+            {featuredPoem.title}
+          </h2>
+        </motion.div>
+
+        <div className="space-y-2">
+          {featuredPoem.lines.map((line, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.3 + i * 0.12, duration: 0.5 }}
+              className={`font-display text-lg md:text-xl leading-relaxed text-ink-700 dark:text-ivory-300 ${line === '' ? 'h-3' : ''}`}
+            >
+              {line}
+            </motion.p>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 1 } : {}}
+          transition={{ delay: 1.4, duration: 0.6 }}
+          className="mt-10"
+        >
+          <Link
+            to="/works"
+            className="text-sm font-body text-forest-700 dark:text-gold-400 font-medium hover:underline"
+          >
+            Read more of her poetry →
+          </Link>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+// ── Audio reading — redesigned, sits right below the poem ────────────────────
+const AudioReading = () => {
+  const [playing, setPlaying] = useState(false)
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.3 })
+
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="py-24 bg-forest-900 dark:bg-ink-900 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-gold-500 blur-3xl" />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={isVisible ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.7 }}
+        className="relative max-w-xl mx-auto px-6 text-center"
+      >
+        <p className="section-label text-gold-500 mb-3">Listen</p>
+        <h2 className="font-display text-2xl md:text-3xl italic font-light text-ivory-100 mb-12">
+          Close your eyes.
+        </h2>
+
+        <div className="flex items-end justify-center gap-1.5 h-16 mb-10">
+          {Array.from({ length: 28 }, (_, i) => (
+            <motion.div
+              key={i}
+              className="w-1.5 rounded-full bg-gold-400"
+              animate={playing ? {
+                height: [`${8 + (i % 5) * 6}px`, `${36 + (i % 7) * 6}px`, `${8 + (i % 5) * 6}px`],
+              } : { height: '6px' }}
+              transition={{
+                duration: 0.8 + (i % 4) * 0.2,
+                repeat: playing ? Infinity : 0,
+                ease: 'easeInOut',
+              }}
+            />
+          ))}
+        </div>
+
+        <motion.button
+          onClick={() => setPlaying(p => !p)}
+          whileTap={{ scale: 0.95 }}
+          className="w-16 h-16 rounded-full bg-gold-500 flex items-center justify-center text-ink-900 hover:bg-gold-400 transition-colors duration-300 mx-auto shadow-gold"
+          aria-label={playing ? 'Pause' : 'Play'}
+        >
+          {playing ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" /><rect x="14" y="4" width="4" height="16" /></svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+          )}
+        </motion.button>
+
+        <audio
+          src="/videos/poetry-video.mp4"
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+          className="hidden"
+          ref={el => {
+            if (el) {
+              if (playing) el.play().catch(() => {})
+              else el.pause()
+            }
+          }}
+        />
+        <p className="text-xs text-gold-400/70 tracking-wide mt-6 font-body">Desi reads her own poetry</p>
+      </motion.div>
+    </section>
+  )
+}
+
+// ── Photo + pull quote moment ─────────────────────────────────────────────────
+const PhotoQuoteMoment = () => {
+  const { ref, isVisible } = useScrollReveal({ threshold: 0.2 })
+  return (
+    <section ref={ref as React.RefObject<HTMLElement>} className="relative py-20 md:py-28 bg-ivory-100 dark:bg-ink-900">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="relative rounded-2xl overflow-hidden">
+          <img
+            src="/images/educator/image-2.jpg"
+            alt="Desi Di Nardo"
+            className="w-full h-[420px] md:h-[520px] object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-900/75 via-ink-900/15 to-transparent" />
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isVisible ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="absolute bottom-8 left-8 right-8 md:left-12 md:right-auto md:max-w-md"
+          >
+            <Feather size={16} className="text-gold-400 mb-3" />
+            <p className="font-display text-xl md:text-2xl italic font-light text-ivory-100 leading-relaxed mb-3">
+              "Desi makes the invisible palpable, and the visible insurgent."
+            </p>
+            <p className="text-xs text-gold-300/90 tracking-wide font-body">— On her poetry</p>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -371,9 +587,12 @@ const FeaturedBooks = () => {
 export const Home = () => (
   <>
     <Hero />
-    <StatsRow />
+    <FeaturedPoem />
+    <AudioReading />
+    <PhotoQuoteMoment />
     <RoleCards />
     <PoetryReveal />
+    <StatsRow />
     <FeaturedBooks />
 
     {/* CTA Banner */}

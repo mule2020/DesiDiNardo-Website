@@ -10,6 +10,7 @@ import { Publications } from './pages/Publications'
 import { Muse } from './pages/Muse'
 import { Contact } from './pages/Contact'
 import { ScrollToTop } from './components/layout/ScrollToTop'
+import { About } from './pages/About'
 
 const AnimatedRoutes = () => {
   const location = useLocation()
@@ -17,6 +18,7 @@ const AnimatedRoutes = () => {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/"             element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/works"        element={<Works />} />
         <Route path="/reviews"      element={<Reviews />} />
         <Route path="/publications" element={<Publications />} />

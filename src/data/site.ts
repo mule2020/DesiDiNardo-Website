@@ -13,6 +13,7 @@ export const siteData = {
 
   nav: [
     { label: 'Home', path: '/' },
+    { label: 'About', path: '/about' },
     { label: 'Works', path: '/works' },
     { label: 'Reviews', path: '/reviews' },
     { label: 'Publications', path: '/publications' },
@@ -97,6 +98,22 @@ export const siteData = {
       description: 'Threading poetic inquiry through curriculum and conversation in Canadian universities — shaping scholarship with artistry and resonance.',
       tags: ['Education', 'University', 'Mentorship'],
     },
+    {
+      id: 'tlx-envolved',
+      category: 'Engagement',
+      title: 'TLX EnvolvED Conference',
+      subtitle: 'Presenter — "Awakening the Imaginative Classroom"',
+      description: 'Facilitated a session in honour of National Poetry Month, reclaiming creativity, presence, and possibility in teaching. Presented as poet, author, and communications professor.',
+      tags: ['Conference', 'Education', 'National Poetry Month'],
+    },
+    {
+      id: 'giant-carrot',
+      category: 'Children\'s Author',
+      title: 'The Giant Carrot',
+      subtitle: 'Children\'s Book',
+      description: 'A venture into children\'s literature, bringing Desi\'s storytelling and poetic sensibility to young readers.',
+      tags: ['Children\'s Book', 'Storytelling'],
+    },
   ],
 
   reviews: [
@@ -154,7 +171,7 @@ export const siteData = {
 
 export const workMedia: Record<string, {
   images?: { src: string; alt: string }[]
-  videos?: { src: string; label?: string }[]
+  videos?: { src?: string; youtubeId?: string; label?: string }[]
 }> = {
   desjardins: {
     videos: [
@@ -192,6 +209,17 @@ export const workMedia: Record<string, {
       { src: '/images/educator/image-8.jpg', alt: 'Community poetry event' },
       { src: '/images/educator/image-9.jpg', alt: 'Mentoring student writers' },
       { src: '/images/educator/image-10.jpg', alt: 'Poetry Parade event' },
+    ],
+  },
+  'tlx-envolved': {
+    images: [
+      { src: '/images/engagement/desi.jpeg', alt: 'TLX EnvolvED Conference Presentor' },
+      { src: '/images/engagement/tlx.jpeg', alt: 'TLX EnvolvED Conference' },
+    ],
+  },
+  'giant-carrot': {
+    videos: [
+      { youtubeId: 'xK-1J6e_K74', label: 'The Giant Carrot — Book Trailer' },
     ],
   },
 }
