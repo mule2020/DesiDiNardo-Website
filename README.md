@@ -96,22 +96,6 @@ All site content lives in one file — **`src/data/site.ts`**:
 }
 ```
 
----
-
-## Deployment
-
-Deployed on **Vercel** with automatic deployments on every push to `main`.
-
-```bash
-git add .
-git commit -m "your update message"
-git push
-```
-
-Vercel detects the push, rebuilds, and redeploys automatically within ~30 seconds.
-
----
-
 ## Features
 
 - Dark / light mode (persisted to localStorage)
